@@ -1,0 +1,269 @@
+html,
+body {
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+}
+*,
+::before,
+::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a.active {
+	font-weight: bold;
+	color: rgb(44, 44, 44);
+	text-decoration: underline;
+}
+
+a:hover {
+	color: rgb(181, 181, 181);
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+footer {
+	padding: 10px;
+}
+
+label > input {
+	cursor: pointer !important;
+}
+
+label:hover {
+	color: rgb(95, 95, 95);
+}
+
+.align-center {
+	text-align: center;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.padding-10-0 {
+	padding: 10px 0;
+}
+
+.padding-5 {
+	padding: 5px;
+}
+
+.margin-5 {
+	margin: 5px 0;
+}
+
+.grey {
+	color: rgb(86, 86, 86);
+}
+
+.grey:hover {
+	color: rgb(0, 0, 0);
+}
+
+.cursorPointer {
+	cursor: pointer;
+}
+
+.content {
+	flex: 1;
+	padding: 10px;
+	justify-items: center;
+}
+
+.menu-list {
+	list-style: none;
+	text-decoration: solid;
+	padding: 5px 15px;
+	background-color: rgb(225, 225, 225);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: capitalize;
+	text-wrap: nowrap;
+}
+
+.menu-list li:not(:last-child)::after {
+	content: '|';
+	margin: 0 5px;
+	text-wrap: nowrap;
+}
+
+.menu-list li:hover a {
+	color: gray;
+}
+
+/* create survey */
+.form-survey {
+	display: flex;
+	flex-direction: column;
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+.checkBox {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.survey {
+	margin: 5px 0;
+}
+
+.question {
+	margin-top: 5px;
+	padding: 10px 0;
+	border-bottom: 1px solid black;
+}
+
+.question:first-child {
+	margin-top: 5px;
+	padding: 10px 0;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.question-input {
+	width: 100%;
+}
+
+.question-block {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.survey-answers {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.answer-option {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.add-answer {
+	cursor: pointer;
+}
+
+.controls-buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+.charts {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.loginForm {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	max-width: 350px;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.loginForm input {
+	width: 100%;
+}
+.loginForm label {
+	align-self: flex-start;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+.notification {
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 300px;
+	margin: 0 auto;
+	border: 1px solid sandybrown;
+}
+
+.surveyList {
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	gap: 5px;
+}
+
+.surveyCard {
+	padding: 5px 15px;
+	border: 1px dotted black;
+	display: flex;
+	justify-content: space-between;
+}
+
+.surveyButtons {
+	display: flex;
+	gap: 5px;
+	justify-content: center;
+	align-items: center;
+	padding: 0 10px;
+}
+
+.viewSurvey--wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	padding: 0 10px;
+}
+
+.card {
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	border: 1px solid black;
+	max-width: 220px;
+	min-height: 175px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.card span {
+	font-weight: 700;
+}
+
+.cards-list {
+	margin: 10px 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	justify-items: center;
+	gap: 10px;
+}
+
+.link {
+	align-self: flex-end;
+	justify-items: flex-end;
+	margin-top: auto;
+}
+
+@media (max-width: 600px) {
+	.cards-list {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 5px;
+	}
+}

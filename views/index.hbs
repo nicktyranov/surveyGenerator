@@ -1,0 +1,30 @@
+{{#if notification}}
+	<div class='notification align-center'>{{notification}}</div>
+
+{{/if}}
+
+<div class='cards-list'>
+	{{#if data}}
+		{{#each data}}
+			<div class='card'>
+				<p class='align-center'><span>{{title}}</span></p>
+
+				<p><span>Description: </span>{{cutWords description 30}}</p>
+				<a href='/survey/{{_id}}' class='link'>more...</a>
+
+			</div>
+		{{/each}}
+	{{/if}}
+
+</div>
+<div class='pagination align-center'>
+	{{#if (gt page 1)}}
+		<a href='/?page={{decrement page}}'>&laquo; Prev</a>
+	{{/if}}
+
+	<span>Page {{page}} of {{totalPages}}</span>
+
+	{{#if (lt page totalPages)}}
+		<a href='/?page={{increment page}}'>Next &raquo;</a>
+	{{/if}}
+</div>
