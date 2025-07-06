@@ -2,30 +2,51 @@
 	<head>
 		<meta charset='UTF-8' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-		<title>Survey Constructor | {{title}}</title>
+		<title>Survey Maker | {{title}}</title>
 		<link rel='stylesheet' href='/styles.css' />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<!-- Apple -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<!-- Android / PWA -->
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+		<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+		<meta name="theme-color" content="#ffffff" />
 
 	</head>
 	<body>
-		<h1 class='align-center'>{{title}} | Survey Constructor</h1>
+		<header>
+			<div>
+			<a href='/'><div class="logo"><img src="/logo.svg" alt="logo">Survey Maker</div></a>
+			<p class="logo-description">Create surveys in seconds.  Engage your audience.  Get instant insights.</p>
+			</div>
 		<nav>
 			<ul class='menu-list'>
-				<li><a href='/' class='{{#if (eq currentPath "/")}}active{{/if}}'>Main page</a></li>
 				<li><a href='/create' class='{{#if (eq currentPath "/create")}}active{{/if}}'>Create a survey</a></li>
-				<li><a href='/list' class='{{#if (eq currentPath "/list")}}active{{/if}}'>My surveys</a></li>
 				{{#if user}}
+					<li><a href='/list' class='{{#if (eq currentPath "/list")}}active{{/if}}'>My surveys</a></li>
 					<li><a href='/logout'>Logout</a></li>
 				{{else}}
 					<li><a href='/login' class='{{#if (eq currentPath "/login")}}active{{/if}}'>Login</a></li>
+					<li><a href='/login/registration' class='{{#if (eq currentPath "/login/registration")}}active{{/if}}'>Sign up</a></li>
 				{{/if}}
+
 			</ul>
 		</nav>
+		</header>
+		
+		
 		<div class='content'>
 			{{{body}}}
 		</div>
 
 		<footer>
-			<p class='align-center'>&copy; <span id='year'></span> Nikolai Tyranov</p>
+			<p class='align-center'>&copy; <span id='year'></span> <a href="https://github.com/nicktyranov" target="_blank">Nikolai Tyranov</a></p>
 		</footer>
 
 		<script>

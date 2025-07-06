@@ -1,5 +1,6 @@
 html,
 body {
+	font-family: "Roboto", sans-serif;
 	height: 100%;
 
 	display: flex;
@@ -20,8 +21,7 @@ a {
 
 a.active {
 	font-weight: bold;
-	color: rgb(44, 44, 44);
-	text-decoration: underline;
+	color: rgba(255, 255, 255, 0.788);
 }
 
 a:hover {
@@ -43,6 +43,56 @@ label > input {
 label:hover {
 	color: rgb(95, 95, 95);
 }
+
+header {
+	background: linear-gradient(135deg, #e0f7fa 0%, #4dd0e1 50%, #00acc1 100%);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px 10px;
+	margin-bottom: 25px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+	font-size: 48px;
+	display: flex;
+	gap: 3px;
+	align-items: center;
+	white-space: nowrap;
+	color: black;
+}
+
+.logo img {
+	max-width: 60px;
+}
+
+.logo-description {
+	font-size: 11px;
+}
+
+.menu-list {
+	font-size: 15px;
+	list-style: none;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: capitalize;
+	white-space: nowrap;
+}
+
+.menu-list li:not(:last-child)::after {
+	content: "|";
+	margin: 0 5px;
+	white-space: nowrap;
+}
+
+.menu-list li:hover a {
+	color: rgb(255, 255, 255);
+}
+
+/* menu end */
 
 .align-center {
 	text-align: center;
@@ -80,28 +130,6 @@ label:hover {
 	flex: 1;
 	padding: 10px;
 	justify-items: center;
-}
-
-.menu-list {
-	list-style: none;
-	text-decoration: solid;
-	padding: 5px 15px;
-	background-color: rgb(225, 225, 225);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-transform: capitalize;
-	text-wrap: nowrap;
-}
-
-.menu-list li:not(:last-child)::after {
-	content: '|';
-	margin: 0 5px;
-	text-wrap: nowrap;
-}
-
-.menu-list li:hover a {
-	color: gray;
 }
 
 /* create survey */
