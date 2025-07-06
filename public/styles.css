@@ -43,7 +43,7 @@ label > input {
 label:hover {
 	color: rgb(95, 95, 95);
 }
-
+/* header start */
 header {
 	background: linear-gradient(135deg, #e0f7fa 0%, #4dd0e1 50%, #00acc1 100%);
 	display: flex;
@@ -91,8 +91,73 @@ header {
 .menu-list li:hover a {
 	color: rgb(255, 255, 255);
 }
+/* header end */
 
-/* menu end */
+/* index start */
+.page-title {
+	font-size: 24px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.cards-list {
+	margin: 10px 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	justify-items: center;
+	gap: 10px;
+}
+
+.card {
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	border: 1px solid black;
+	border-radius: 12px;
+	max-width: 220px;
+	min-height: 280px;
+	width: 100%;
+	overflow: hidden;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	white-space: wrap;
+	max-width: 200px;
+	text-transform: capitalize;
+	text-overflow: ellipsis;
+}
+.title img {
+	max-width: 50px;
+}
+
+.card a {
+	margin-top: auto;
+	margin-left: auto;
+	align-self: flex-end;
+	font-size: 13px;
+	color: #0d6efd;
+	text-decoration: none;
+}
+
+.card a:hover {
+	text-decoration: underline;
+}
+
+/* index end */
 
 .align-center {
 	text-align: center;
@@ -128,7 +193,7 @@ header {
 
 .content {
 	flex: 1;
-	padding: 10px;
+	padding: 0 10px;
 	justify-items: center;
 }
 
@@ -259,39 +324,44 @@ header {
 	padding: 0 10px;
 }
 
-.card {
-	padding: 10px;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	border: 1px solid black;
-	max-width: 220px;
-	min-height: 175px;
-	width: 100%;
-	overflow: hidden;
-}
-
-.card span {
-	font-weight: 700;
-}
-
-.cards-list {
-	margin: 10px 0;
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	justify-items: center;
-	gap: 10px;
-}
-
 .link {
 	align-self: flex-end;
 	justify-items: flex-end;
 	margin-top: auto;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
+	.cards-list {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 5px;
+	}
+}
+
+@media (max-width: 680px) {
+	header {
+		flex-direction: column;
+		gap: 15px;
+	}
+
 	.cards-list {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 5px;
+	}
+}
+
+@media (max-width: 500px) {
+	.cards-list {
+		grid-template-columns: repeat(1, 1fr);
+	}
+
+	.card {
+		padding: 10px;
+		max-width: none;
+		min-height: 200px;
+		width: 100%;
+	}
+
+	.title {
+		max-width: none;
 	}
 }

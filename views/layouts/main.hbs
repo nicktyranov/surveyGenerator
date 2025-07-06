@@ -22,24 +22,22 @@
 	<body>
 		<header>
 			<div>
-			<a href='/'><div class="logo"><img src="/logo.svg" alt="logo">Survey Maker</div></a>
-			<p class="logo-description">Create surveys in seconds.  Engage your audience.  Get instant insights.</p>
+				<a href='/'><div class="logo"><img src="/logo.svg" alt="logo">Survey Maker</div></a>
+				<p class="logo-description">Create surveys in seconds.  Engage your audience.  Get instant insights.</p>
 			</div>
-		<nav>
-			<ul class='menu-list'>
-				<li><a href='/create' class='{{#if (eq currentPath "/create")}}active{{/if}}'>Create a survey</a></li>
-				{{#if user}}
-					<li><a href='/list' class='{{#if (eq currentPath "/list")}}active{{/if}}'>My surveys</a></li>
-					<li><a href='/logout'>Logout</a></li>
-				{{else}}
-					<li><a href='/login' class='{{#if (eq currentPath "/login")}}active{{/if}}'>Login</a></li>
-					<li><a href='/login/registration' class='{{#if (eq currentPath "/login/registration")}}active{{/if}}'>Sign up</a></li>
-				{{/if}}
-
-			</ul>
-		</nav>
+			<nav>
+				<ul class='menu-list'>
+					<li><a href='/create' class='{{#if (eq currentPath "/create")}}active{{/if}}'>Create a survey</a></li>
+					{{#if user}}
+						<li><a href='/list' class='{{#if (eq currentPath "/list")}}active{{/if}}'>My surveys</a></li>
+						<li><a href='/logout'>Logout</a></li>
+					{{else}}
+						<li><a href='/login' class='{{#if (eq currentPath "/login")}}active{{/if}}'>Login</a></li>
+						<li><a href='/login/registration' class='{{#if (eq currentPath "/login/registration")}}active{{/if}}'>Sign up</a></li>
+					{{/if}}
+				</ul>
+			</nav>
 		</header>
-		
 		
 		<div class='content'>
 			{{{body}}}
