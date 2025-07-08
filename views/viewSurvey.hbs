@@ -1,76 +1,53 @@
-<div class='viewSurvey--wrapper'>
+<div class="viewSurvey--wrapper">
 	{{#if data}}
-		<span>name:
-			{{title}}</span>
-		<span>description:
-			{{description}}</span>
-		<span>createdAt:
-			{{dateFix data.createdAt}}</span>
-		<h3 class="align-center">Questions</h3>
+		<span>
+			<strong>
+				Name:
+			</strong>
+			{{title}}
+		</span>
+		<span>
+			<strong>
+				Description:
+			</strong>
+			{{description}}
+		</span>
+		<span>
+			<strong>
+				CreatedAt:
+			</strong>
+			{{dateFix data.createdAt}}
+		</span>
+		<h3 class="align-center">
+			Questions
+		</h3>
 
 		<div class="charts">
-			<ul>
+		
 				{{#each questionData}}
-					<li class="align-center padding-10-0">{{text}}?
+					<div class="question-block">
+						<h4>{{text}}?</h4>
 						<canvas
-							id='myChart-{{@index}}'
-							width='600'
-							height='400'
+							id="myChart-{{@index}}"
+							width="600"
+							height="400"
 							data-labels='{{{labels}}}'
 							data-votes='{{{votes}}}'
 						>
 						</canvas>
-					</li>
+					</div>
 				{{/each}}
-			</ul>
+			
 		</div>
 
 		<div>
-
 		</div>
-
 	{{else}}
-		<p>Error: try to refresh this page</p>
+		<p>
+			Error: try to refresh this page
+		</p>
 	{{/if}}
 
-	<script src='https://cdn.jsdelivr.net/npm/chart.js' defer></script>
-
-	<script>
-		window.addEventListener('load', () => {
-		document.querySelectorAll('canvas[id^="myChart-"]').forEach((canvas) => { 
-		const labels = JSON.parse(canvas.dataset.labels); 
-		const votes = JSON.parse(canvas.dataset.votes); 
-		console.log(votes)
-		const totalVotes = votes.reduce((acc, x) => acc + x, 0)
-		console.log(totalVotes)
-
-		const ctx = canvas.getContext('2d'); 
-		new Chart(ctx, { 
-		type: 'bar', 
-		data: { 
-			labels: labels, 
-			datasets: [ {
-			label: 'Answers', 
-			data: votes.map((el) => (el/totalVotes * 100).toFixed(1)), 
-			backgroundColor: ['#e74c3c', '#3498db', '#f1c40f', '#2ecc71',
-			'#9b59b6'] } ] 
-			}, 
-		options: { 
-			responsive: true, 
-			plugins: { legend: { position: 'top' }, 
-			title: { display: true, text: 'Survey results, %' } },
-			scales: {
-			y: {
-				min: 0,
-				max: 100,
-				ticks: {
-					stepSize: 10
-				}
-			}
-			}
-			} ,
-		
-			
-			}); }); });
-	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+	<script src="/js/surveyChart.js" defer></script>
 </div>

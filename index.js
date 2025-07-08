@@ -223,7 +223,7 @@ app.get('/survey/:id', async (req, res) => {
 	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	if (!surveyData) {
-		return res.status(404).send('Survey not found');
+		return res.status(404).redirect('/?notification=Survey not found');
 	}
 	console.log(surveyData);
 
@@ -300,11 +300,14 @@ app.get('/survey/results/:id', async (req, res) => {
 	}
 	console.log(surveyData);
 
-	const questionData = surveyData.questions.map((q) => ({
-		text: q.text,
-		labels: JSON.stringify(q.answers.map((a) => a.text)),
-		votes: JSON.stringify(q.answers.map((a) => a.votes))
-	}));
+	const questionData = surveyData.questions.map((q) => {
+		const answers = Array.isArray(q.answers) ? q.answers : [];
+		return {
+			text: q.text,
+			labels: JSON.stringify(answers.map((a) => a.text.trim())),
+			votes: JSON.stringify(answers.map((a) => a.votes))
+		};
+	});
 
 	res.render('viewSurvey', {
 		title: surveyData.title,

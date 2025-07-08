@@ -1,14 +1,13 @@
-<div>
-	{{#if data}}
+<div class="form-survey">
 		<h2>{{title}}</h2>
 		<p><strong>Description:</strong> {{description}}</p>
 
-		<form method='POST' action='/survey/{{data._id}}/vote' class="form-survey">
+		<form method='POST' action='/survey/{{data._id}}/vote' >
 			{{#each data.questions}}
 				<div class='question-block margin-5'>
-					<p><strong> {{this.text}}</strong></p>
+					<h3><strong> {{this.text}}</strong></h3>
 					{{#each this.answers}}
-						<label class="cursorPointer">
+						<label class="cursorPointer answer-option">
 							<input
 								type="radio"
 								name="question-{{@../index}}"
@@ -20,9 +19,6 @@
 					{{/each}}
 				</div>
 			{{/each}}
-			<button type='submit' class="padding-5 margin-5">Submit</button>
+			<button type='submit' class="button">Submit</button>
 		</form>
-	{{else}}
-		<p>Error: survey not found.</p>
-	{{/if}}
 </div>
