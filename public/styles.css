@@ -70,6 +70,10 @@ header {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+footer{
+	text-align: center;
+}
+
 .logo {
 	font-size: 48px;
 	display: flex;
@@ -96,6 +100,15 @@ header {
 	align-items: center;
 	text-transform: capitalize;
 	white-space: nowrap;
+	padding: 0 !important;
+}
+
+.menu-list ul {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 !important;
+	
 }
 
 .menu-list li:not(:last-child)::after {
@@ -184,6 +197,11 @@ header {
 	border-radius: 5px;
 }
 
+.button:hover {
+  background-color: #00bcd4;
+  transition: background-color 0.3s ease;
+}
+
 .text-align-center {
 	text-align: center;
 }
@@ -221,10 +239,14 @@ header {
 }
 
 .content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	flex: 1;
 	padding: 0 10px;
-	justify-items: center;
 }
+
 
 /* create survey */
 .form-survey {
@@ -323,7 +345,7 @@ header {
 .loginForm {
 	display: flex;
 	flex-direction: column;
-	gap: 5px;
+	gap: 8px;
 	max-width: 350px;
 	justify-content: center;
 	align-items: center;
@@ -333,11 +355,23 @@ header {
 
 .loginForm input {
 	width: 100%;
+	min-height: 25px;
+
 }
 .loginForm label {
 	align-self: flex-start;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
+	font-weight: 700;
+}
+
+.loginForm a.grey {
+  font-size: 14px;
+  margin-top: 10px;
+  color: var(--blue);
+}
+.loginForm a.grey:hover {
+  text-decoration: underline;
 }
 
 .notification {
@@ -401,9 +435,16 @@ header {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 5px;
 	}
+
+	footer{
+	font-size: 14px;
+}
 }
 
 @media (max-width: 500px) {
+	footer{
+	font-size: 12px;
+}
 	.cards-list {
 		grid-template-columns: repeat(1, 1fr);
 	}
@@ -418,5 +459,4 @@ header {
 	.title {
 		max-width: none;
 	}
-}
 }
