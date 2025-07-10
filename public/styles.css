@@ -252,31 +252,87 @@ footer{
 .form-survey {
 	display: flex;
 	flex-direction: column;
-	max-width: 500px;
+	padding: 30px;
+	border-radius: 12px;
+	background: var(--white);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	width: 100%;
+	max-width: 600px;
 	margin: 0 auto;
-}
-
-.form-survey form {
-	margin-top: 20px;
+	gap: 10px;
 }
 
 .form-survey h2 {
+	text-transform: capitalize;
 	text-align: center;
+	margin: 0;
 }
+
+.form-survey label {
+	font-weight: 600;
+	font-size: 14px;
+	color: var(--dark-grey);
+	padding-top: 4px;
+}
+
+.form-survey input,
+.form-survey textarea {
+	width: 100%;
+	padding: 10px;
+	border-radius: 6px;
+	border: 1px solid var(--grey);
+	font-family: inherit;
+	font-size: 14px;
+}
+
+.form-survey textarea {
+	min-height: 60px;
+	resize: vertical;
+}
+
+
+.form-survey button {
+	padding: 10px;
+	border: none;
+	border-radius: 6px;
+	background-color: var(--light-blue);
+	color: var(--black);
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.form-survey button:hover {
+	background-color: #00bcd4;
+}
+
+
+
 
 .checkBox {
 	display: flex;
 	align-items: center;
-	gap: 5px;
+	gap: 10px;
+	margin-top: 10px;
+	white-space: nowrap;
+	align-self: flex-start;
 }
 
+
 .survey {
-	margin: 5px 0;
+	margin-top: 20px;
 }
+
+.survey h3 {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
 
 .question {
 	margin-top: 5px;
-	padding: 10px 0;
 	border-bottom: 1px solid var(--black);
 }
 
@@ -334,8 +390,12 @@ footer{
 
 .controls-buttons {
 	display: flex;
+	gap: 10px;
 	justify-content: space-between;
+	margin-top: 20px;
+	color: var(--red);
 }
+
 
 .charts {
 	max-width: 600px;
@@ -435,6 +495,11 @@ footer{
 		grid-template-columns: repeat(2, 1fr);
 		gap: 5px;
 	}
+
+	.form-survey {
+	padding: 30px;
+	width: auto;
+}
 
 	footer{
 	font-size: 14px;

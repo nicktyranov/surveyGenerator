@@ -1,5 +1,3 @@
-console.log('script conneccted');
-
 const surveyContainer = document.querySelector('.survey');
 
 surveyContainer.addEventListener('click', (e) => {
@@ -37,39 +35,6 @@ surveyContainer.addEventListener('click', (e) => {
 	}
 });
 
-// console.log('script conneccted');
-// document.querySelector('.add-answer').addEventListener('click', (e) => {
-// 	e.preventDefault();
-// 	const parent = document.querySelector('.survey-answers');
-
-// 	const newInput = document.createElement('div');
-// 	newInput.className = 'answer-option';
-
-// 	const currentAnswersCount = parent.querySelectorAll('.answer-option').length + 1;
-
-// 	newInput.innerHTML = `
-// 	<label>
-// 		<span class="answer-text">Answer ${currentAnswersCount}</span>
-// 		<input text="radio" name="answer-${currentAnswersCount}" value="" />
-// 	</label>
-// 	`;
-
-// 	parent.appendChild(newInput);
-// });
-
-// document.querySelector('.delete-answer').addEventListener('click', (e) => {
-// 	e.preventDefault();
-
-// 	const parent = document.querySelector('.survey-answers');
-// 	const currentAnswersCount = parent.querySelectorAll('.answer-option').length;
-// 	if (currentAnswersCount < 1) {
-// 		return;
-// 	}
-// 	const lastInput = parent.querySelector('.answer-option:last-child');
-
-// 	parent.removeChild(lastInput);
-// });
-
 document.querySelector('#add-question').addEventListener('click', (e) => {
 	e.preventDefault();
 
@@ -102,8 +67,8 @@ document.querySelector('#add-question').addEventListener('click', (e) => {
     </div>
 
     <div class='controls-buttons'>
-      <span class='add-answer' style='color: brown; cursor:pointer;'>+ Add answer</span>
-      <span class='delete-answer' style='color: brown; cursor:pointer;'>- Delete answer</span>
+      <span class='add-answer'>+ Add answer</span>
+      <span class='delete-answer'>- Delete answer</span>
     </div>
   `;
 
