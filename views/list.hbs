@@ -1,26 +1,17 @@
 <div class='surveyList'>
-
-	{{#if data}}
-		{{#each data}}
-
-			<div class='surveyCard'>
-				<p>
-					name:
-					{{title}}
-					<br />
-					description:
-					{{description}}
-				</p>
-				<div class='surveyButtons'>
-					<button><a href='/survey/{{_id}}'>details</a></button>
-					<button><a href='/survey/{{_id}}/edit'>edit</a></button>
-					<button><a href='/survey/{{_id}}/delete'>delete</a></button>
-				</div>
-
-			</div>
-
-		{{/each}}
-	{{else}}
-		<p>no surveys</p>
-	{{/if}}
+  {{#if data}}
+    {{#each data}}
+      <div class='surveyCard'>
+        <h3>{{title}}</h3>
+        <p class="description">{{description}}</p>
+        <div class='surveyButtons'>
+          <a href='/survey/{{_id}}' class='btn'>Details</a>
+          <a href='/survey/{{_id}}/edit' class='btn'>Edit</a>
+          <a href='/survey/{{_id}}/delete' class='btn btn-danger'>Delete</a>
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <p>No surveys found.</p>
+  {{/if}}
 </div>

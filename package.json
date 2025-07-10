@@ -5,7 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node index.js"
+		"start": "node index.js",
+		"stylelint": "stylelint \"**/*.css\" --fix"
 	},
 	"author": "",
 	"license": "ISC",
@@ -24,6 +25,9 @@
 		"@types/mongodb": "^4.0.6",
 		"@types/node": "^22.14.0",
 		"ember-template-lint-plugin-prettier": "^5.0.0",
-		"prettier": "^3.5.3"
+		"prettier": "^3.5.3",
+		"stylelint": "^16.21.1",
+		"stylelint-config-clean-order": "^7.0.0",
+		"stylelint-order": "^6.0.4"
 	}
 }

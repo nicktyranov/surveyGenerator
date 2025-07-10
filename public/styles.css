@@ -2,13 +2,12 @@
 	--blue: #0d6efd;
 	--light-blue: #4DD0E1;
 	--dark-grey: #424242;
-	--grey-50: rgb(95, 95, 95);
-	--grey: rgb(181, 181, 181);
+	--grey-50: rgb(95 95 95);
+	--grey: rgb(181 181 181);
 	--light-grey: #E0E0E0;
-
 	--red: #F06292;
 	--black: #000;
-	--white-80: rgba(255, 255, 255, 0.8);
+	--white-80: rgb(255 255 255 / 80%);
 	--white: #fff;
 	
 }
@@ -22,17 +21,17 @@
 
 html,
 body {
-	font-family: "Roboto", sans-serif;
-	height: 100%;
-
 	display: flex;
 	flex-direction: column;
+	height: 100%;
+	font-family: Roboto, sans-serif;
 }
+
 *,
 
 a {
-	text-decoration: none;
 	color: (var(--black));
+	text-decoration: none;
 }
 
 a.active {
@@ -50,6 +49,7 @@ button:hover {
 
 footer {
 	padding: 10px;
+	text-align: center;
 }
 
 label > input {
@@ -59,28 +59,29 @@ label > input {
 label:hover {
 	color: var(--grey-50)
 }
+
 /* header start */
 header {
-	background: linear-gradient(135deg, #e0f7fa 0%, #4dd0e1 50%, #00acc1 100%);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 5px 10px;
+
 	margin-bottom: 25px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	padding: 5px 10px;
+
+	background: linear-gradient(135deg, #e0f7fa 0%, #4dd0e1 50%, #00acc1 100%);
+	box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
 
-footer{
-	text-align: center;
-}
 
 .logo {
-	font-size: 48px;
 	display: flex;
 	gap: 3px;
 	align-items: center;
-	white-space: nowrap;
+
+	font-size: 48px;
 	color: var(--black);
+	white-space: nowrap;
 }
 
 .logo img {
@@ -92,21 +93,23 @@ footer{
 }
 
 .menu-list {
-	font-size: 15px;
-	list-style: none;
-	text-decoration: none;
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+
+	padding: 0 !important;
+
+	font-size: 15px;
+	text-decoration: none;
 	text-transform: capitalize;
 	white-space: nowrap;
-	padding: 0 !important;
+	list-style: none;
 }
 
 .menu-list ul {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 	padding: 0 !important;
 	
 }
@@ -118,37 +121,42 @@ footer{
 }
 
 .menu-list li:hover a {
-	color: rgb(255, 255, 255);
+	color: rgb(255 255 255);
 }
+
 /* header end */
 
 /* index start */
 .page-title {
-	font-size: 24px;
 	margin-bottom: 30px;
+	font-size: 24px;
 	text-align: center;
 }
 
 .cards-list {
-	margin: 10px 0;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	justify-items: center;
 	gap: 10px;
+	justify-items: center;
+
+	margin: 10px 0;
 }
 
 .card {
-	padding: 10px;
+	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	border: 1px solid var(--black);
-	border-radius: 12px;
+
+	width: 100%;
 	max-width: 220px;
 	min-height: 280px;
-	width: 100%;
-	overflow: hidden;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	padding: 10px;
+	border: 1px solid var(--black);
+	border-radius: 12px;
+
+	box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
+
 	transition:
 		transform 0.2s ease,
 		box-shadow 0.2s ease;
@@ -156,27 +164,16 @@ footer{
 
 .card:hover {
 	transform: translateY(-4px);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
 }
 
-.title {
-	font-weight: 600;
-	display: flex;
-	align-items: center;
-	text-align: center;
-	white-space: wrap;
-	max-width: 200px;
-	text-transform: capitalize;
-	text-overflow: ellipsis;
-}
-.title img {
-	max-width: 50px;
-}
 
 .card a {
+	align-self: flex-end;
+
 	margin-top: auto;
 	margin-left: auto;
-	align-self: flex-end;
+
 	font-size: 13px;
 	color: var(--blue);
 	text-decoration: none;
@@ -186,15 +183,33 @@ footer{
 	text-decoration: underline;
 }
 
+.title {
+	display: flex;
+	align-items: center;
+
+	max-width: 200px;
+
+	font-weight: 600;
+	text-align: center;
+	text-overflow: ellipsis;
+	text-transform: capitalize;
+	white-space: wrap;
+}
+
+.title img {
+	max-width: 50px;
+}
 /* index end */
 
 .button {
 	display: flex;
 	justify-self: center;
+
 	padding: 10px;
-	background-color: var(--light-blue);
 	border: none;
 	border-radius: 5px;
+
+	background-color: var(--light-blue);
 }
 
 .button:hover {
@@ -205,9 +220,10 @@ footer{
 .text-align-center {
 	text-align: center;
 }
+
 .align-center {
-	margin: 0 auto;
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 .align-right {
@@ -227,7 +243,7 @@ footer{
 }
 
 .grey {
-	color: rgb(86, 86, 86);
+	color: rgb(86 86 86);
 }
 
 .grey:hover {
@@ -240,65 +256,72 @@ footer{
 
 .content {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	flex: 1;
+
 	padding: 0 10px;
 }
-
 
 /* create survey */
 .form-survey {
 	display: flex;
 	flex-direction: column;
-	padding: 30px;
-	border-radius: 12px;
-	background: var(--white);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	gap: 10px;
+
 	width: 100%;
 	max-width: 600px;
 	margin: 0 auto;
-	gap: 10px;
+	padding: 30px;
+	border-radius: 12px;
+
+	background: var(--white);
+	box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
 }
 
 .form-survey h2 {
-	text-transform: capitalize;
-	text-align: center;
 	margin: 0;
+	text-align: center;
+	text-transform: capitalize;
 }
 
 .form-survey label {
-	font-weight: 600;
-	font-size: 14px;
-	color: var(--dark-grey);
 	padding-top: 4px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--dark-grey);
 }
 
 .form-survey input,
 .form-survey textarea {
 	width: 100%;
 	padding: 10px;
-	border-radius: 6px;
 	border: 1px solid var(--grey);
+	border-radius: 6px;
+
 	font-family: inherit;
 	font-size: 14px;
 }
 
 .form-survey textarea {
-	min-height: 60px;
 	resize: vertical;
+	min-height: 60px;
 }
 
 
 .form-survey button {
+	cursor: pointer;
+
 	padding: 10px;
 	border: none;
 	border-radius: 6px;
-	background-color: var(--light-blue);
-	color: var(--black);
+
 	font-weight: 600;
-	cursor: pointer;
+	color: var(--black);
+
+	background-color: var(--light-blue);
+
 	transition: background-color 0.3s ease;
 }
 
@@ -306,30 +329,27 @@ footer{
 	background-color: #00bcd4;
 }
 
-
-
-
 .checkBox {
 	display: flex;
-	align-items: center;
 	gap: 10px;
-	margin-top: 10px;
-	white-space: nowrap;
+	align-items: center;
 	align-self: flex-start;
-}
 
+	margin-top: 10px;
+
+	white-space: nowrap;
+}
 
 .survey {
 	margin-top: 20px;
 }
 
 .survey h3 {
+	margin-bottom: 10px;
 	font-size: 18px;
 	font-weight: bold;
-	margin-bottom: 10px;
 	text-align: center;
 }
-
 
 .question {
 	margin-top: 5px;
@@ -348,40 +368,45 @@ footer{
 }
 
 .question-block {
+ display: flex;
+ flex-direction: column;
+ gap: 5px;
+ align-items: center;
+ justify-content: center;
+
+  max-width:600px;
   margin: 40px auto;
   padding: 20px;
-  background: var(--white);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  max-width: 700px;
+
+  background: var(--white);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
 }
 
-
 .question-block h3 {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .question-block h4 {
   margin-bottom: 12px;
+
   font-size: 1.2rem;
-  color: var(--dark-grey);
   font-weight: 600;
+  color: var(--dark-grey);
   text-align: center;
 }
 
-
 .survey-answers {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	flex-flow: column wrap;
 	gap: 10px;
-	flex-wrap: wrap;
+	align-items: center;
 }
 
 .answer-option {
 	display: flex;
-	align-items: center;
 	gap: 5px;
+	align-items: center;
 }
 
 .add-answer {
@@ -392,10 +417,11 @@ footer{
 	display: flex;
 	gap: 10px;
 	justify-content: space-between;
+
 	margin-top: 20px;
+
 	color: var(--red);
 }
-
 
 .charts {
 	max-width: 600px;
@@ -406,18 +432,19 @@ footer{
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	max-width: 350px;
-	justify-content: center;
 	align-items: center;
-	margin: 0 auto;
+	justify-content: center;
+
 	width: 100%;
+	max-width: 350px;
+	margin: 0 auto;
 }
 
 .loginForm input {
 	width: 100%;
 	min-height: 25px;
-
 }
+
 .loginForm label {
 	align-self: flex-start;
 	font-family: Arial, Helvetica, sans-serif;
@@ -426,43 +453,93 @@ footer{
 }
 
 .loginForm a.grey {
-  font-size: 14px;
   margin-top: 10px;
+  font-size: 14px;
   color: var(--blue);
 }
+
 .loginForm a.grey:hover {
   text-decoration: underline;
 }
 
 .notification {
-	padding: 10px;
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+
 	max-width: 300px;
 	margin: 0 auto;
+	padding: 10px;
 	border: 1px solid sandybrown;
 }
 
+/* surveyList */
 .surveyList {
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
-	gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px;
 }
 
 .surveyCard {
-	padding: 5px 15px;
-	border: 1px dotted black;
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 16px;
+  border: 1px solid var(--light-grey);
+  border-radius: 12px;
+
+  background-color: var(--white);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 5%);
+}
+
+.surveyCard h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.surveyCard .description {
+  margin: 0;
+  font-size: 14px;
+  color: var(--grey-50);
 }
 
 .surveyButtons {
-	display: flex;
-	gap: 5px;
-	justify-content: center;
-	align-items: center;
-	padding: 0 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.surveyButtons .btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+
+  font-size: 14px;
+  color: white;
+  text-decoration: none;
+
+  background-color: var(--light-blue);
+
+  transition: background-color 0.2s ease;
+}
+
+.surveyButtons .btn:hover {
+  background-color: #00acc1;
+}
+
+.surveyButtons .btn-danger {
+  background-color: #ef5350;
+}
+
+.surveyButtons .btn-danger:hover {
+  background-color: #e53935;
 }
 
 .viewSurvey--wrapper {
@@ -478,14 +555,14 @@ footer{
 	margin-top: auto;
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
 	.cards-list {
 		grid-template-columns: repeat(3, 1fr);
 		gap: 5px;
 	}
 }
 
-@media (max-width: 680px) {
+@media (width <= 680px) {
 	header {
 		flex-direction: column;
 		gap: 15px;
@@ -497,28 +574,29 @@ footer{
 	}
 
 	.form-survey {
-	padding: 30px;
 	width: auto;
-}
+	padding: 30px;
+	}
 
-	footer{
+	footer {
 	font-size: 14px;
-}
+ 	}
 }
 
-@media (max-width: 500px) {
-	footer{
+@media (width <= 500px) {
+	footer {
 	font-size: 12px;
-}
+	}
+
 	.cards-list {
 		grid-template-columns: repeat(1, 1fr);
 	}
 
 	.card {
-		padding: 10px;
+		width: 100%;
 		max-width: none;
 		min-height: 200px;
-		width: 100%;
+		padding: 10px;
 	}
 
 	.title {
