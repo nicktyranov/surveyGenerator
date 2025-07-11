@@ -78,7 +78,6 @@ let db = mongoClient.db('surveyApp');
 async function runDb() {
 	try {
 		await mongoClient.connect();
-		console.log('Connection with mongodb is successful');
 	} catch (e) {
 		console.log(`DB error: ${e.message}`);
 	}
@@ -87,9 +86,7 @@ runDb();
 
 app.get('/', async (req, res) => {
 	if (req.session.user) {
-		console.log(req.session.user);
 	}
-	await mongoClient.connect();
 	const page = parseInt(req.query.page) || 1;
 	const limit = 12;
 	const skip = (page - 1) * limit;
@@ -99,7 +96,6 @@ app.get('/', async (req, res) => {
 		.skip(skip)
 		.limit(limit)
 		.toArray();
-	console.log(data);
 
 	const totalCount = await db
 		.collection('surveys')
@@ -130,23 +126,22 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-	await mongoClient.connect();
-	await db
-		.collection('users')
-		.findOne({ username: req.body.username })
-		.then((user) => {
-			bcrypt.compare(req.body.password, user.password).then((result) => {
-				if (result) {
-					req.session.user = user;
-					console.log('pass matched');
-					res.redirect('/');
-				} else {
-					console.log('wrong pass');
-					res.redirect('/login?notification=Username/password incorrect');
-				}
-			});
-		});
+	const user = await db.collection('users').findOne({ username: req.body.username });
+
+	if (!user) {
+		return res.redirect('/login?notification=Username or password incorrect');
+	}
+
+	const valid = await bcrypt.compare(req.body.password, user.password);
+
+	if (valid) {
+		req.session.user = user;
+		return res.redirect('/');
+	} else {
+		return res.redirect('/login?notification=Username or password incorrect');
+	}
 });
+
 
 app.get('/login/registration', (req, res) => {
 	if (req.query.notification) {
@@ -157,13 +152,12 @@ app.get('/login/registration', (req, res) => {
 });
 
 app.post('/login/registration', async (req, res) => {
-	await mongoClient.connect();
 	const isUserExist = await db.collection('users').findOne({ username: req.body.username });
 	if (isUserExist) {
 		return res.redirect('/login/registration?notification=User is already exist');
 	}
 
-	db.collection('users').insertOne({
+	await db.collection('users').insertOne({
 		username: req.body.username,
 		password: await bcrypt.hash(req.body.password, 10)
 	});
@@ -174,15 +168,13 @@ app.get('/create', (req, res) => {
 	if (!req.session.user) {
 		return res.redirect('/login?notification=must be authorized');
 	}
-	res.render('create', { title: 'Creave a survey' });
+	res.render('create', { title: 'Create a survey' });
 });
 
 app.post('/create', async (req, res) => {
 	if (!req.session.user) {
 		return res.redirect('/login?notification=must be authorized');
 	}
-	await mongoClient.connect();
-	console.log(req.body);
 	const questions = req.body.questions.map((q) => ({
 		_id: new ObjectId(),
 		text: q.text,
@@ -212,20 +204,21 @@ app.get('/list', async (req, res) => {
 	if (!req.session.user) {
 		return res.redirect('/login?notification=must be authorized');
 	}
-	await mongoClient.connect();
 	const surveys = await db.collection('surveys').find({ createdBy: req.session.user._id }).toArray();
 	res.render('list', { title: 'User`s surveys', data: surveys });
 });
 
 app.get('/survey/:id', async (req, res) => {
 	let id = req.params.id;
-	await mongoClient.connect();
 	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	if (!surveyData) {
 		return res.status(404).redirect('/?notification=Survey not found');
 	}
-	console.log(surveyData);
+
+	if (surveyData.private && (!req.session.user || surveyData.createdBy.toString() !== req.session.user._id.toString())) {
+		return res.status(403).send('Forbidden');
+	}
 
 	res.render('survey', {
 		title: surveyData.title,
@@ -239,13 +232,12 @@ app.get('/survey/:id/delete', async (req, res) => {
 		return res.redirect('/login?notification=must be authorized');
 	}
 	let id = req.params.id;
-	await mongoClient.connect();
 	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	if (!surveyData) {
 		return res.status(404).send('Survey not found');
 	}
-	if (surveyData.createdBy !== req.session.user._id) {
+	if (surveyData.createdBy.toString() !== req.session.user._id.toString()) {
 		return res.redirect('/?notification=NO ACCESS: you are not the owner of this survey');
 	}
 
@@ -256,13 +248,11 @@ app.get('/survey/:id/delete', async (req, res) => {
 
 app.post('/survey/:id/vote', async (req, res) => {
 	let id = req.params.id;
-	await mongoClient.connect();
 	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	if (!surveyData) {
 		return res.status(404).send('Survey not found');
 	}
-	console.log(surveyData);
 
 	const updatedQuestions = surveyData.questions.map((question, index) => {
 		const answerKey = `question-${index}`;
@@ -281,8 +271,6 @@ app.post('/survey/:id/vote', async (req, res) => {
 		};
 	});
 
-	console.log(updatedQuestions);
-
 	await db
 		.collection('surveys')
 		.updateOne({ _id: new ObjectId(id) }, { $set: { questions: updatedQuestions } });
@@ -292,13 +280,11 @@ app.post('/survey/:id/vote', async (req, res) => {
 
 app.get('/survey/results/:id', async (req, res) => {
 	let id = req.params.id;
-	await mongoClient.connect();
 	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	if (!surveyData) {
 		return res.status(404).send('Survey not found');
 	}
-	console.log(surveyData);
 
 	const questionData = surveyData.questions.map((q) => {
 		const answers = Array.isArray(q.answers) ? q.answers : [];
@@ -322,7 +308,6 @@ app.get('/survey/:id/edit', async (req, res) => {
 		return res.redirect('/login?notification=must be authorized');
 	}
 	let id = req.params.id;
-	await mongoClient.connect();
 	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	res.render('create', { title: 'Edit a survey', data: surveyData });
@@ -334,7 +319,6 @@ app.post('/survey/:id/edit', async (req, res) => {
 	}
 	let id = req.params.id;
 
-	await mongoClient.connect();
 	const existingSurvey = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
 	const questions = req.body.questions.map((q, qIndex) => {
