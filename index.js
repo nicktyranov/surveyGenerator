@@ -85,8 +85,6 @@ async function runDb() {
 runDb();
 
 app.get('/', async (req, res) => {
-	if (req.session.user) {
-	}
 	const page = parseInt(req.query.page) || 1;
 	const limit = 12;
 	const skip = (page - 1) * limit;
@@ -141,7 +139,6 @@ app.post('/login', async (req, res) => {
 		return res.redirect('/login?notification=Username or password incorrect');
 	}
 });
-
 
 app.get('/login/registration', (req, res) => {
 	if (req.query.notification) {
@@ -216,7 +213,10 @@ app.get('/survey/:id', async (req, res) => {
 		return res.status(404).redirect('/?notification=Survey not found');
 	}
 
-	if (surveyData.private && (!req.session.user || surveyData.createdBy.toString() !== req.session.user._id.toString())) {
+	if (
+		surveyData.private &&
+		(!req.session.user || surveyData.createdBy.toString() !== req.session.user._id.toString())
+	) {
 		return res.status(403).send('Forbidden');
 	}
 
@@ -355,6 +355,12 @@ app.post('/survey/:id/edit', async (req, res) => {
 app.get('/logout', (req, res) => {
 	req.session.destroy(() => {
 		res.redirect('/login');
+	});
+});
+
+app.use((req, res) => {
+	res.status(404).render('404', {
+		title: 'Page Not Found'
 	});
 });
 

@@ -1,15 +1,14 @@
 :root {
 	--blue: #0d6efd;
-	--light-blue: #4DD0E1;
+	--light-blue: #4dd0e1;
 	--dark-grey: #424242;
 	--grey-50: rgb(95 95 95);
 	--grey: rgb(181 181 181);
-	--light-grey: #E0E0E0;
-	--red: #F06292;
+	--light-grey: #e0e0e0;
+	--red: #f06292;
 	--black: #000;
 	--white-80: rgb(255 255 255 / 80%);
 	--white: #fff;
-	
 }
 
 ::before,
@@ -28,7 +27,6 @@ body {
 }
 
 *,
-
 a {
 	color: (var(--black));
 	text-decoration: none;
@@ -37,6 +35,11 @@ a {
 a.active {
 	font-weight: bold;
 	color: var(--white-80);
+}
+
+a.blue {
+	font-weight: bold;
+	color: var(--light-blue);
 }
 
 a:hover {
@@ -57,7 +60,7 @@ label > input {
 }
 
 label:hover {
-	color: var(--grey-50)
+	color: var(--grey-50);
 }
 
 /* header start */
@@ -72,7 +75,6 @@ header {
 	background: linear-gradient(135deg, #e0f7fa 0%, #4dd0e1 50%, #00acc1 100%);
 	box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
-
 
 .logo {
 	display: flex;
@@ -111,11 +113,10 @@ header {
 	align-items: center;
 	justify-content: center;
 	padding: 0 !important;
-	
 }
 
 .menu-list li:not(:last-child)::after {
-	content: "|";
+	content: '|';
 	margin: 0 5px;
 	white-space: nowrap;
 }
@@ -167,7 +168,6 @@ header {
 	box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
 }
 
-
 .card a {
 	align-self: flex-end;
 
@@ -213,8 +213,8 @@ header {
 }
 
 .button:hover {
-  background-color: #00bcd4;
-  transition: background-color 0.3s ease;
+	background-color: #00bcd4;
+	transition: background-color 0.3s ease;
 }
 
 .text-align-center {
@@ -247,7 +247,7 @@ header {
 }
 
 .grey:hover {
-	color: var(--black)
+	color: var(--black);
 }
 
 .cursorPointer {
@@ -309,7 +309,6 @@ header {
 	min-height: 60px;
 }
 
-
 .form-survey button {
 	cursor: pointer;
 
@@ -359,8 +358,8 @@ header {
 .question:first-child {
 	margin-top: 5px;
 	padding: 10px 0;
-	border-top: 1px solid var(--black);;
-	border-bottom: 1px solid var(--black);;
+	border-top: 1px solid var(--black);
+	border-bottom: 1px solid var(--black);
 }
 
 .question-input {
@@ -368,32 +367,32 @@ header {
 }
 
 .question-block {
- display: flex;
- flex-direction: column;
- gap: 5px;
- align-items: center;
- justify-content: center;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	align-items: center;
+	justify-content: center;
 
-  max-width:600px;
-  margin: 40px auto;
-  padding: 20px;
-  border-radius: 12px;
+	max-width: 600px;
+	margin: 40px auto;
+	padding: 20px;
+	border-radius: 12px;
 
-  background: var(--white);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
+	background: var(--white);
+	box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
 }
 
 .question-block h3 {
-  margin-top: 0;
+	margin-top: 0;
 }
 
 .question-block h4 {
-  margin-bottom: 12px;
+	margin-bottom: 12px;
 
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--dark-grey);
-  text-align: center;
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: var(--dark-grey);
+	text-align: center;
 }
 
 .survey-answers {
@@ -453,13 +452,13 @@ header {
 }
 
 .loginForm a.grey {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--blue);
+	margin-top: 10px;
+	font-size: 14px;
+	color: var(--blue);
 }
 
 .loginForm a.grey:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 .notification {
@@ -475,71 +474,71 @@ header {
 
 /* surveyList */
 .surveyList {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 10px;
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 10px;
 }
 
 .surveyCard {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 
-  padding: 16px;
-  border: 1px solid var(--light-grey);
-  border-radius: 12px;
+	padding: 16px;
+	border: 1px solid var(--light-grey);
+	border-radius: 12px;
 
-  background-color: var(--white);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 5%);
+	background-color: var(--white);
+	box-shadow: 0 2px 6px rgb(0 0 0 / 5%);
 }
 
 .surveyCard h3 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--black);
+	margin: 0;
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--black);
 }
 
 .surveyCard .description {
-  margin: 0;
-  font-size: 14px;
-  color: var(--grey-50);
+	margin: 0;
+	font-size: 14px;
+	color: var(--grey-50);
 }
 
 .surveyButtons {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
 }
 
 .surveyButtons .btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
+	padding: 6px 12px;
+	border: none;
+	border-radius: 6px;
 
-  font-size: 14px;
-  color: white;
-  text-decoration: none;
+	font-size: 14px;
+	color: white;
+	text-decoration: none;
 
-  background-color: var(--light-blue);
+	background-color: var(--light-blue);
 
-  transition: background-color 0.2s ease;
+	transition: background-color 0.2s ease;
 }
 
 .surveyButtons .btn:hover {
-  background-color: #00acc1;
+	background-color: #00acc1;
 }
 
 .surveyButtons .btn-danger {
-  background-color: #ef5350;
+	background-color: #ef5350;
 }
 
 .surveyButtons .btn-danger:hover {
-  background-color: #e53935;
+	background-color: #e53935;
 }
 
 .viewSurvey--wrapper {
@@ -574,18 +573,18 @@ header {
 	}
 
 	.form-survey {
-	width: auto;
-	padding: 30px;
+		width: auto;
+		padding: 30px;
 	}
 
 	footer {
-	font-size: 14px;
- 	}
+		font-size: 14px;
+	}
 }
 
 @media (width <= 500px) {
 	footer {
-	font-size: 12px;
+		font-size: 12px;
 	}
 
 	.cards-list {

@@ -24,10 +24,13 @@
 		"@types/express": "^5.0.1",
 		"@types/mongodb": "^4.0.6",
 		"@types/node": "^22.14.0",
+		"chai": "^5.2.1",
 		"ember-template-lint-plugin-prettier": "^5.0.0",
-		"prettier": "^3.5.3",
+		"mocha": "^11.7.1",
+		"prettier": "^3.6.2",
 		"stylelint": "^16.21.1",
 		"stylelint-config-clean-order": "^7.0.0",
-		"stylelint-order": "^6.0.4"
+		"stylelint-order": "^6.0.4",
+		"supertest": "^7.1.3"
 	}
 }
