@@ -124,19 +124,23 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-	const user = await db.collection('users').findOne({ username: req.body.username });
+	try {
+		const user = await db.collection('users').findOne({ username: req.body.username });
 
-	if (!user) {
-		return res.redirect('/login?notification=Username or password incorrect');
-	}
+		if (!user) {
+			return res.redirect('/login?notification=Username or password incorrect');
+		}
 
-	const valid = await bcrypt.compare(req.body.password, user.password);
+		const valid = await bcrypt.compare(req.body.password, user.password);
 
-	if (valid) {
-		req.session.user = user;
-		return res.redirect('/');
-	} else {
-		return res.redirect('/login?notification=Username or password incorrect');
+		if (valid) {
+			req.session.user = user;
+			return res.redirect('/');
+		} else {
+			return res.redirect('/login?notification=Username or password incorrect');
+		}
+	} catch (err) {
+		res.status(500).send('Internal Server Error');
 	}
 });
 
@@ -149,16 +153,21 @@ app.get('/login/registration', (req, res) => {
 });
 
 app.post('/login/registration', async (req, res) => {
-	const isUserExist = await db.collection('users').findOne({ username: req.body.username });
-	if (isUserExist) {
-		return res.redirect('/login/registration?notification=User is already exist');
-	}
+	try {
+		const isUserExist = await db.collection('users').findOne({ username: req.body.username });
+		if (isUserExist) {
+			return res.redirect('/login/registration?notification=User is already exist');
+		}
 
-	await db.collection('users').insertOne({
-		username: req.body.username,
-		password: await bcrypt.hash(req.body.password, 10)
-	});
-	res.redirect('/login');
+		await db.collection('users').insertOne({
+			username: req.body.username,
+			password: await bcrypt.hash(req.body.password, 10)
+		});
+		res.redirect('/login');
+	} catch (err) {
+		console.error('Registration error:', err);
+		res.status(500).send('Internal Server Error');
+	}
 });
 
 app.get('/create', (req, res) => {
@@ -367,3 +376,5 @@ app.use((req, res) => {
 app.listen(3008, () => {
 	console.log('Server is running: localhost:3008');
 });
+
+export default app;
