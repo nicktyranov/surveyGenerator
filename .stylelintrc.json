@@ -1,12 +1,5 @@
 {
-    "extends": [
-	"stylelint-config-standard",
-    "stylelint-config-clean-order"
-    ],
-    "plugins": [
-        "stylelint-order"
-    ],
-    "rules": {
-
-    }
+	"extends": ["stylelint-config-standard", "stylelint-config-clean-order"],
+	"plugins": ["stylelint-order"],
+	"rules": {}
 }

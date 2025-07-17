@@ -11,6 +11,7 @@
 	--white: #fff;
 }
 
+*,
 ::before,
 ::after {
 	box-sizing: border-box;
@@ -28,7 +29,7 @@ body {
 
 *,
 a {
-	color: (var(--black));
+	color: var(--black);
 	text-decoration: none;
 }
 
@@ -193,7 +194,7 @@ header {
 	text-align: center;
 	text-overflow: ellipsis;
 	text-transform: capitalize;
-	white-space: wrap;
+	white-space: normal;
 }
 
 .title img {
@@ -328,6 +329,23 @@ header {
 	background-color: #00bcd4;
 }
 
+.form-survey .description,
+.form-survey p,
+.form-survey span,
+.form-survey div {
+	word-wrap: break-word;
+	overflow-wrap: anywhere;
+}
+
+.description {
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;
+	max-width: 100%;
+	line-height: 1.4;
+}
+
 .checkBox {
 	display: flex;
 	gap: 10px;
@@ -370,7 +388,6 @@ header {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
-	align-items: center;
 	justify-content: center;
 
 	max-width: 600px;
@@ -399,13 +416,14 @@ header {
 	display: flex;
 	flex-flow: column wrap;
 	gap: 10px;
-	align-items: center;
+	align-items: flex-start;
 }
 
 .answer-option {
-	display: flex;
-	gap: 5px;
-	align-items: center;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 10px;
+	align-items: start;
 }
 
 .add-answer {
@@ -541,7 +559,7 @@ header {
 	background-color: #e53935;
 }
 
-.viewSurvey--wrapper {
+.viewSurvey-wrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
@@ -554,14 +572,14 @@ header {
 	margin-top: auto;
 }
 
-@media (width <= 900px) {
+@media (max-width: 900px) {
 	.cards-list {
 		grid-template-columns: repeat(3, 1fr);
 		gap: 5px;
 	}
 }
 
-@media (width <= 680px) {
+@media (max-width: 680px) {
 	header {
 		flex-direction: column;
 		gap: 15px;
@@ -582,7 +600,7 @@ header {
 	}
 }
 
-@media (width <= 500px) {
+@media (max-width: 500px) {
 	footer {
 		font-size: 12px;
 	}

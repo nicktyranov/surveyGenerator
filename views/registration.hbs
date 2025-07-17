@@ -3,17 +3,17 @@
 {{/if}}
 
 <form method='post' class='loginForm'>
-<a href='/login'>Back to login</a>
+	<a href='/login'>Back to login</a>
 	{{#if error}}
 		<div>
 			<p>{{error}}</p>
 		</div>
 	{{/if}}
 	<label for='username'>Username:</label>
-	<input id="username" type='text' name='username' placeholder='Enter your username' />
+	<input id='username' type='text' name='username' placeholder='Enter your username' />
 
 	<label for='password'>Password:</label>
-	<input id="password"  type='password' name='password' placeholder='Enter your password' />
+	<input id='password' type='password' name='password' placeholder='Enter your password' />
 
-	<button type='submit' class="button">Create an account</button>
+	<button type='submit' class='button'>Create an account</button>
 </form>

@@ -1,50 +1,82 @@
-<form class='form-survey' method='POST'>
-	<h2>Create a Survey</h2>
-	<label for='title'>Name of this survey</label>
-	<input title name='title' type='text' placeholder='Enter survey title' value="{{data.title}}" />
+<form class="form-survey" method="POST">
+  <h2>Create a Survey</h2>
 
-	<label for='description'>Description of this survey</label>
-	<textarea id="description" name='description' placeholder='Enter survey description'
-	>{{data.description}}</textarea>
+  <label for="title">Name of this survey</label>
+  <input
+    title
+    name="title"
+    type="text"
+    placeholder="Enter survey title"
+    value="{{data.title}}"
+  />
 
-	<div class='checkBox'>
-		<label for='private'>Private survey?</label>
-	<input id="private" name='private' type="checkbox" {{#if data.private}}checked{{/if}}/>
-	</div>
+  <label for="description">Description of this survey</label>
+  <textarea
+    id="description"
+    name="description"
+    placeholder="Enter survey description"
+  >{{data.description}}</textarea>
 
-	<div class='survey'>
-		<h3>Survey Questions</h3>
-{{#if data.questions}}
-{{#each data.questions}}
-		<div class='question' data-question-index='{{@index}}'>
-			<label for="questions[{{@index}}][text]">Question {{inc @index}}</label>
-			<input id="questions[{{@index}}][text]" type='text' name='questions[{{@index}}][text]' class='question-input'
-			value="{{this.text}}"
-			 required />
+  <div class="checkBox">
+    <label for="private">Private survey?</label>
+    <input
+      id="private"
+      name="private"
+      type="checkbox"
+      {{#if data.private}}checked{{/if}}
+    />
+  </div>
 
-			<h4>Answers</h4>
-			<div class='survey-answers' data-question-index='{{@index}}'>
-				{{#each this.answers}}
-				<div class='answer-option'>
-					<label for="questions[{{@../index}}][answers][{{@index}}]">
-							<span class='answer-text'>Answer {{inc @index}} </span><input id="questions[{{@../index}}][answers][{{@index}}]" type='text' name='questions[{{@../index}}][answers][{{@index}}][text]' 
-							value="{{this.text}}" required />
-				</div>
-				{{/each}}
-			</div>
+  <div class="survey">
+    <h3>Survey Questions</h3>
 
-			<div class='controls-buttons'>
-				<span class='add-answer'>+ Add answer</span>
-				<span class='delete-answer'>- Delete answer</span>
-			</div>
-		</div>
-		{{/each}}
-{{/if}}
-	</div>
-<div class="controls-buttons">
-	<button id='add-question'>Add question</button>
-	<button id='delete-question'>Delete question</button>
-	<button type='submit'> {{#if data}}Update{{else}}Create{{/if}}</button>
-</div>
+    {{#if data.questions}}
+      {{#each data.questions}}
+        <div class="question" data-question-index="{{@index}}">
+          <label for="questions[{{@index}}][text]">Question {{inc @index}}</label>
+          <input
+            id="questions[{{@index}}][text]"
+            type="text"
+            name="questions[{{@index}}][text]"
+            class="question-input"
+            value="{{this.text}}"
+            required
+          />
+
+          <h4>Answers</h4>
+          <div class="survey-answers" data-question-index="{{@index}}">
+            {{#each this.answers}}
+              <div class="answer-option">
+                <label for="questions[{{@../index}}][answers][{{@index}}]">
+                  <span class="answer-text">Answer {{inc @index}}</span>
+                  <input
+                    id="questions[{{@../index}}][answers][{{@index}}]"
+                    type="text"
+                    name="questions[{{@../index}}][answers][{{@index}}][text]"
+                    value="{{this.text}}"
+                    required
+                  />
+                </label>
+              </div>
+            {{/each}}
+          </div>
+
+          <div class="controls-buttons">
+            <span class="add-answer">+ Add answer</span>
+            <span class="delete-answer">- Delete answer</span>
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
+
+  <div class="controls-buttons">
+    <button id="add-question">Add question</button>
+    <button id="delete-question">Delete question</button>
+    <button type="submit">
+      {{#if data}}Update{{else}}Create{{/if}}
+    </button>
+  </div>
 </form>
-<script src='js/create.js'></script>
+
+<script src="/js/create.js"></script>

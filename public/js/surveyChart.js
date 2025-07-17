@@ -35,7 +35,7 @@ window.addEventListener('load', () => {
 				responsive: true,
 				plugins: {
 					legend: {
-						display: false 
+						display: false
 					},
 					title: { display: true, text: 'Survey results, %' }
 				},

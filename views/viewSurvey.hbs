@@ -1,4 +1,4 @@
-<div class="viewSurvey--wrapper">
+<div class='viewSurvey--wrapper'>
 	{{#if data}}
 		<span>
 			<strong>
@@ -18,26 +18,26 @@
 			</strong>
 			{{dateFix data.createdAt}}
 		</span>
-		<h3 class="align-center">
+		<h3 class='align-center'>
 			Questions
 		</h3>
 
-		<div class="charts">
-		
-				{{#each questionData}}
-					<div class="question-block">
-						<h4>{{text}}?</h4>
-						<canvas
-							id="myChart-{{@index}}"
-							width="600"
-							height="400"
-							data-labels='{{{labels}}}'
-							data-votes='{{{votes}}}'
-						>
-						</canvas>
-					</div>
-				{{/each}}
-			
+		<div class='charts'>
+
+			{{#each questionData}}
+				<div class='question-block'>
+					<h4>{{text}}?</h4>
+					<canvas
+						id='myChart-{{@index}}'
+						width='600'
+						height='400'
+						data-labels='{{{labels}}}'
+						data-votes='{{{votes}}}'
+					>
+					</canvas>
+				</div>
+			{{/each}}
+
 		</div>
 
 		<div>
@@ -48,6 +48,6 @@
 		</p>
 	{{/if}}
 
-	<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-	<script src="/js/surveyChart.js" defer></script>
+	<script src='https://cdn.jsdelivr.net/npm/chart.js' defer></script>
+	<script src='/js/surveyChart.js' defer></script>
 </div>

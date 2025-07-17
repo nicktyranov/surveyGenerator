@@ -1,3 +1,4 @@
+/* global process */
 import express from 'express';
 import { engine } from 'express-handlebars';
 import handlebars from 'handlebars';
@@ -5,6 +6,8 @@ import mongodb from 'mongodb';
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
 import session from 'express-session';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 
@@ -25,7 +28,7 @@ app.use(express.static('public'));
 
 app.use(
 	session({
-		secret: 'secret_key',
+		secret: process.env.SESSION_KEY,
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
@@ -88,30 +91,35 @@ app.get('/', async (req, res) => {
 	const page = parseInt(req.query.page) || 1;
 	const limit = 12;
 	const skip = (page - 1) * limit;
-	let data = await db
-		.collection('surveys')
-		.find({ private: { $in: [false, null] } })
-		.skip(skip)
-		.limit(limit)
-		.toArray();
 
-	const totalCount = await db
-		.collection('surveys')
-		.countDocuments({ private: { $in: [false, null] } });
-	const totalPages = Math.ceil(totalCount / limit);
+	try {
+		let data = await db
+			.collection('surveys')
+			.find({ private: { $in: [false, null] } })
+			.skip(skip)
+			.limit(limit)
+			.toArray();
 
-	if (req.query.notification) {
-		let notification = req.query.notification;
-		return res.render('index', {
-			title: 'Main Page',
-			notification,
-			data,
-			totalCount,
-			totalPages,
-			page
-		});
+		const totalCount = await db
+			.collection('surveys')
+			.countDocuments({ private: { $in: [false, null] } });
+		const totalPages = Math.ceil(totalCount / limit);
+
+		if (req.query.notification) {
+			let notification = req.query.notification;
+			return res.render('index', {
+				title: 'Main Page',
+				notification,
+				data,
+				totalCount,
+				totalPages,
+				page
+			});
+		}
+		res.render('index', { title: 'Main Page', data, totalCount, totalPages, page });
+	} catch (e) {
+		return res.status(500).render('error', { message: 'Something went wrong!' });
 	}
-	res.render('index', { title: 'Main Page', data, totalCount, totalPages, page });
 });
 
 app.get('/login', (req, res) => {
@@ -181,59 +189,75 @@ app.post('/create', async (req, res) => {
 	if (!req.session.user) {
 		return res.redirect('/login?notification=must be authorized');
 	}
-	const questions = req.body.questions.map((q) => ({
-		_id: new ObjectId(),
-		text: q.text,
-		answers: q.answers.map((ans) => ({
-			text: ans.text,
-			votes: 0
-		}))
-	}));
 
-	const result = await db.collection('surveys').insertOne({
-		title: req.body.title,
-		description: req.body.description,
-		private: req.body.private == 'on', //true OR undefined
-		createdAt: new Date(),
-		questions: questions,
-		createdBy: req.session.user._id
-	});
+	try {
+		const questions = req.body.questions.map((q) => ({
+			_id: new ObjectId(),
+			text: q.text,
+			answers: q.answers.map((ans) => ({
+				text: ans.text,
+				votes: 0
+			}))
+		}));
 
-	await db
-		.collection('users')
-		.updateOne({ _id: req.session.user._id }, { $push: { surveys: result.insertedId } });
+		const result = await db.collection('surveys').insertOne({
+			title: req.body.title,
+			description: req.body.description,
+			private: req.body.private == 'on', //true OR undefined
+			createdAt: new Date(),
+			questions: questions,
+			createdBy: req.session.user._id
+		});
 
-	res.redirect('/');
+		await db
+			.collection('users')
+			.updateOne({ _id: req.session.user._id }, { $push: { surveys: result.insertedId } });
+
+		res.redirect('/');
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
+	}
 });
 
 app.get('/list', async (req, res) => {
 	if (!req.session.user) {
 		return res.redirect('/login?notification=must be authorized');
 	}
-	const surveys = await db.collection('surveys').find({ createdBy: req.session.user._id }).toArray();
-	res.render('list', { title: 'User`s surveys', data: surveys });
+	try {
+		const surveys = await db
+			.collection('surveys')
+			.find({ createdBy: req.session.user._id })
+			.toArray();
+		res.render('list', { title: 'User`s surveys', data: surveys });
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
+	}
 });
 
 app.get('/survey/:id', async (req, res) => {
 	let id = req.params.id;
-	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
-	if (!surveyData) {
-		return res.status(404).redirect('/?notification=Survey not found');
+	try {
+		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+		if (!surveyData) {
+			return res.status(404).redirect('/?notification=Survey not found');
+		}
+
+		if (
+			surveyData.private &&
+			(!req.session.user || surveyData.createdBy.toString() !== req.session.user._id.toString())
+		) {
+			return res.status(403).send('Forbidden');
+		}
+
+		res.render('survey', {
+			title: surveyData.title,
+			description: surveyData.description,
+			data: surveyData
+		});
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
 	}
-
-	if (
-		surveyData.private &&
-		(!req.session.user || surveyData.createdBy.toString() !== req.session.user._id.toString())
-	) {
-		return res.status(403).send('Forbidden');
-	}
-
-	res.render('survey', {
-		title: surveyData.title,
-		description: surveyData.description,
-		data: surveyData
-	});
 });
 
 app.get('/survey/:id/delete', async (req, res) => {
@@ -241,75 +265,123 @@ app.get('/survey/:id/delete', async (req, res) => {
 		return res.redirect('/login?notification=must be authorized');
 	}
 	let id = req.params.id;
-	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
-	if (!surveyData) {
-		return res.status(404).send('Survey not found');
+	try {
+		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+
+		if (!surveyData) {
+			return res.status(404).send('Survey not found');
+		}
+		if (surveyData.createdBy.toString() !== req.session.user._id.toString()) {
+			return res.redirect('/?notification=NO ACCESS: you are not the owner of this survey');
+		}
+
+		await db.collection('surveys').deleteOne({ _id: new ObjectId(id) });
+
+		res.redirect(`/?notification=survey with id: ${id} deleted`);
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
 	}
-	if (surveyData.createdBy.toString() !== req.session.user._id.toString()) {
-		return res.redirect('/?notification=NO ACCESS: you are not the owner of this survey');
-	}
-
-	await db.collection('surveys').deleteOne({ _id: new ObjectId(id) });
-
-	res.redirect(`/?notification=survey with id: ${id} deleted`);
 });
 
+// app.post('/survey/:id/vote', async (req, res) => {
+// 	let id = req.params.id;
+// 	try {
+// 		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+
+// 		if (!surveyData) {
+// 			return res.status(404).send('Survey not found');
+// 		}
+
+// 		const updatedQuestions = surveyData.questions.mapasync((question, index) => {
+// 			const answerKey = `question-${index}`;
+// 			const selectedAnswerText = req.body[answerKey];
+
+// 			const updatedQuestions = surveyData.questions.mapasync((question, index) => {
+// 				const answerKey = `question-${index}`;
+// 				const selectedAnswerText = req.body[answerKey];
+
+// 				const updatedAnswers = question.answers.map((answer) => {
+// 					if (answer.text === selectedAnswerText) {
+// 						return { ...answer, votes: answer.votes + 1 };
+// 					}
+// 					return answer;
+// 				});
+// 			});
+// 			await db.collection('surveys').updateOne({ _id: new ObjectId(id) }, { $set: { questions: updatedQuestions } });
+// 			return {
+// 				...question,   // ← Здесь ошибка: question вне области видимости
+// 				answers: updatedAnswers // ← И updatedAnswers тоже вне области видимости
+// 			};
+
+// 		});
+// 	} catch (e) {
+// 		res.status(500).send('Internal Server Error: ' + e.message);
+// 	}
+// });
 app.post('/survey/:id/vote', async (req, res) => {
 	let id = req.params.id;
-	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+	try {
+		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
-	if (!surveyData) {
-		return res.status(404).send('Survey not found');
-	}
+		if (!surveyData) {
+			return res.status(404).send('Survey not found');
+		}
 
-	const updatedQuestions = surveyData.questions.map((question, index) => {
-		const answerKey = `question-${index}`;
-		const selectedAnswerText = req.body[answerKey];
+		const updatedQuestions = surveyData.questions.map((question, index) => {
+			const answerKey = `question-${index}`;
+			const selectedAnswerText = req.body[answerKey];
 
-		const updatedAnswers = question.answers.map((answer) => {
-			if (answer.text === selectedAnswerText) {
-				return { ...answer, votes: answer.votes + 1 };
-			}
-			return answer;
+			const updatedAnswers = question.answers.map((answer) => {
+				if (answer.text === selectedAnswerText) {
+					return { ...answer, votes: answer.votes + 1 };
+				}
+				return answer;
+			});
+
+			return {
+				...question,
+				answers: updatedAnswers
+			};
 		});
 
-		return {
-			...question,
-			answers: updatedAnswers
-		};
-	});
+		await db
+			.collection('surveys')
+			.updateOne({ _id: new ObjectId(id) }, { $set: { questions: updatedQuestions } });
 
-	await db
-		.collection('surveys')
-		.updateOne({ _id: new ObjectId(id) }, { $set: { questions: updatedQuestions } });
-
-	res.redirect(`/survey/results/${id}`);
+		res.redirect(`/survey/results/${id}`);
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
+	}
 });
 
 app.get('/survey/results/:id', async (req, res) => {
 	let id = req.params.id;
-	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+	try {
+		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
-	if (!surveyData) {
-		return res.status(404).send('Survey not found');
+		if (!surveyData) {
+			return res.status(404).send('Survey not found');
+		}
+
+		const questionData = surveyData.questions.map((q) => {
+			const answers = Array.isArray(q.answers) ? q.answers : [];
+			return {
+				text: q.text,
+				labels: JSON.stringify(answers.map((a) => a.text.trim())),
+				votes: JSON.stringify(answers.map((a) => a.votes))
+			};
+		});
+
+		res.render('viewSurvey', {
+			title: surveyData.title,
+			description: surveyData.description,
+			data: surveyData,
+			questionData
+		});
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
 	}
-
-	const questionData = surveyData.questions.map((q) => {
-		const answers = Array.isArray(q.answers) ? q.answers : [];
-		return {
-			text: q.text,
-			labels: JSON.stringify(answers.map((a) => a.text.trim())),
-			votes: JSON.stringify(answers.map((a) => a.votes))
-		};
-	});
-
-	res.render('viewSurvey', {
-		title: surveyData.title,
-		description: surveyData.description,
-		data: surveyData,
-		questionData
-	});
 });
 
 app.get('/survey/:id/edit', async (req, res) => {
@@ -317,9 +389,13 @@ app.get('/survey/:id/edit', async (req, res) => {
 		return res.redirect('/login?notification=must be authorized');
 	}
 	let id = req.params.id;
-	const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+	try {
+		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
-	res.render('create', { title: 'Edit a survey', data: surveyData });
+		res.render('create', { title: 'Edit a survey', data: surveyData });
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
+	}
 });
 
 app.post('/survey/:id/edit', async (req, res) => {
@@ -327,38 +403,41 @@ app.post('/survey/:id/edit', async (req, res) => {
 		return res.redirect('/login?notification=must be authorized');
 	}
 	let id = req.params.id;
+	try {
+		const existingSurvey = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
 
-	const existingSurvey = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
+		const questions = req.body.questions.map((q, qIndex) => {
+			const existingQuestion = existingSurvey.questions[qIndex];
 
-	const questions = req.body.questions.map((q, qIndex) => {
-		const existingQuestion = existingSurvey.questions[qIndex];
+			return {
+				_id: new ObjectId(q._id),
+				text: q.text,
+				answers: q.answers.map((ans, aIndex) => {
+					const oldVotes = existingQuestion?.answers?.[aIndex]?.votes || 0;
+					return {
+						text: ans.text,
+						votes: oldVotes
+					};
+				})
+			};
+		});
 
-		return {
-			_id: new ObjectId(q._id),
-			text: q.text,
-			answers: q.answers.map((ans, aIndex) => {
-				const oldVotes = existingQuestion?.answers?.[aIndex]?.votes || 0;
-				return {
-					text: ans.text,
-					votes: oldVotes
-				};
-			})
-		};
-	});
-
-	await db.collection('surveys').updateOne(
-		{ _id: new ObjectId(id) },
-		{
-			$set: {
-				title: req.body.title,
-				description: req.body.description,
-				createdAt: new Date(),
-				questions: questions,
-				createdBy: req.session.user._id
+		await db.collection('surveys').updateOne(
+			{ _id: new ObjectId(id) },
+			{
+				$set: {
+					title: req.body.title,
+					description: req.body.description,
+					createdAt: new Date(),
+					questions: questions,
+					createdBy: req.session.user._id
+				}
 			}
-		}
-	);
-	res.redirect('/list');
+		);
+		res.redirect('/list');
+	} catch (e) {
+		res.status(500).send('Internal Server Error: ' + e.message);
+	}
 });
 
 app.get('/logout', (req, res) => {
