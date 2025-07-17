@@ -87,6 +87,13 @@ async function runDb() {
 }
 runDb();
 
+function isAuthenticated(req, res, next) {
+	if (!req.session.user) {
+		return res.redirect('/login?notification=must be authorized');
+	}
+	next();
+}
+
 app.get('/', async (req, res) => {
 	const page = parseInt(req.query.page) || 1;
 	const limit = 12;
@@ -185,11 +192,7 @@ app.get('/create', (req, res) => {
 	res.render('create', { title: 'Create a survey' });
 });
 
-app.post('/create', async (req, res) => {
-	if (!req.session.user) {
-		return res.redirect('/login?notification=must be authorized');
-	}
-
+app.post('/create', isAuthenticated, async (req, res) => {
 	try {
 		const questions = req.body.questions.map((q) => ({
 			_id: new ObjectId(),
@@ -219,10 +222,7 @@ app.post('/create', async (req, res) => {
 	}
 });
 
-app.get('/list', async (req, res) => {
-	if (!req.session.user) {
-		return res.redirect('/login?notification=must be authorized');
-	}
+app.get('/list', isAuthenticated, async (req, res) => {
 	try {
 		const surveys = await db
 			.collection('surveys')
@@ -260,10 +260,7 @@ app.get('/survey/:id', async (req, res) => {
 	}
 });
 
-app.get('/survey/:id/delete', async (req, res) => {
-	if (!req.session.user) {
-		return res.redirect('/login?notification=must be authorized');
-	}
+app.get('/survey/:id/delete', isAuthenticated, async (req, res) => {
 	let id = req.params.id;
 
 	try {
@@ -284,41 +281,6 @@ app.get('/survey/:id/delete', async (req, res) => {
 	}
 });
 
-// app.post('/survey/:id/vote', async (req, res) => {
-// 	let id = req.params.id;
-// 	try {
-// 		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
-
-// 		if (!surveyData) {
-// 			return res.status(404).send('Survey not found');
-// 		}
-
-// 		const updatedQuestions = surveyData.questions.mapasync((question, index) => {
-// 			const answerKey = `question-${index}`;
-// 			const selectedAnswerText = req.body[answerKey];
-
-// 			const updatedQuestions = surveyData.questions.mapasync((question, index) => {
-// 				const answerKey = `question-${index}`;
-// 				const selectedAnswerText = req.body[answerKey];
-
-// 				const updatedAnswers = question.answers.map((answer) => {
-// 					if (answer.text === selectedAnswerText) {
-// 						return { ...answer, votes: answer.votes + 1 };
-// 					}
-// 					return answer;
-// 				});
-// 			});
-// 			await db.collection('surveys').updateOne({ _id: new ObjectId(id) }, { $set: { questions: updatedQuestions } });
-// 			return {
-// 				...question,   // ← Здесь ошибка: question вне области видимости
-// 				answers: updatedAnswers // ← И updatedAnswers тоже вне области видимости
-// 			};
-
-// 		});
-// 	} catch (e) {
-// 		res.status(500).send('Internal Server Error: ' + e.message);
-// 	}
-// });
 app.post('/survey/:id/vote', async (req, res) => {
 	let id = req.params.id;
 	try {
@@ -384,10 +346,7 @@ app.get('/survey/results/:id', async (req, res) => {
 	}
 });
 
-app.get('/survey/:id/edit', async (req, res) => {
-	if (!req.session.user) {
-		return res.redirect('/login?notification=must be authorized');
-	}
+app.get('/survey/:id/edit', isAuthenticated, async (req, res) => {
 	let id = req.params.id;
 	try {
 		const surveyData = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
@@ -398,10 +357,7 @@ app.get('/survey/:id/edit', async (req, res) => {
 	}
 });
 
-app.post('/survey/:id/edit', async (req, res) => {
-	if (!req.session.user) {
-		return res.redirect('/login?notification=must be authorized');
-	}
+app.post('/survey/:id/edit', isAuthenticated, async (req, res) => {
 	let id = req.params.id;
 	try {
 		const existingSurvey = await db.collection('surveys').findOne({ _id: new ObjectId(id) });
